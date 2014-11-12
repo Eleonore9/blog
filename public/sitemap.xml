@@ -2,36 +2,40 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.opensensors.io/blog/2013/10/07/hello-world/</loc>
-        <lastmod>2014-03-13T13:40:46+00:00</lastmod>
+        <lastmod>2014-09-17T17:15:29+01:00</lastmod>
     </url>
     <url>
         <loc>http://blog.opensensors.io/blog/2013/10/08/future-cities/</loc>
-        <lastmod>2014-03-13T13:40:46+00:00</lastmod>
+        <lastmod>2014-09-17T17:15:29+01:00</lastmod>
     </url>
     <url>
         <loc>http://blog.opensensors.io/blog/2013/11/25/the-big-red-button/</loc>
-        <lastmod>2014-03-13T13:40:46+00:00</lastmod>
+        <lastmod>2014-09-17T17:15:29+01:00</lastmod>
     </url>
     <url>
         <loc>http://blog.opensensors.io/blog/2014/03/12/iot-in-the-city/</loc>
-        <lastmod>2014-03-13T14:24:32+00:00</lastmod>
+        <lastmod>2014-09-17T17:15:29+01:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/
         </loc>
-        <lastmod>2014-09-13T12:17:04+01:00</lastmod>
+        <lastmod>2014-11-12T17:55:34+00:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.opensensors.io/</loc>
-        <lastmod>2014-09-13T12:17:04+01:00</lastmod>
+        <loc>http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield/</loc>
+        <lastmod>2014-11-12T17:55:36+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.opensensors.io/blog/archives/</loc>
-        <lastmod>2014-09-13T12:17:04+01:00</lastmod>
+        <lastmod>2014-11-12T17:55:36+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.opensensors.io/robots.txt</loc>
-        <lastmod>2014-03-06T14:25:00+00:00</lastmod>
+        <lastmod>2014-09-17T17:15:29+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.opensensors.io/</loc>
+        <lastmod>2014-11-12T17:55:36+00:00</lastmod>
     </url>
 </urlset>

@@ -4,7 +4,7 @@
   <title><![CDATA[OpenSensors.IO]]></title>
   <link href="http://blog.opensensors.io/atom.xml" rel="self"/>
   <link href="http://blog.opensensors.io/"/>
-  <updated>2014-09-13T12:18:35+01:00</updated>
+  <updated>2014-11-12T17:55:36+00:00</updated>
   <id>http://blog.opensensors.io/</id>
   <author>
     <name><![CDATA[OpenSensors.IO]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Installing an Arduino Wifi Shield]]></title>
+    <link href="http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield/"/>
+    <updated>2014-11-12T17:11:00+00:00</updated>
+    <id>http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield</id>
+    <content type="html"><![CDATA[<p>After a few Arduino projects (mainly blinking LEDs and connecting sensors) I tried
+to connect my Arduino to the internet using a Wifi shield.</p>
+
+<p>I started by looking at Arduino Wifi shield instructions: <a href="http://arduino.cc/en/Guide/ArduinoWiFiShield.">http://arduino.cc/en/Guide/ArduinoWiFiShield.</a>
+Then I physically connected my Arduino and Wifi shield:</p>
+
+<p><picture arduino+wifi shield></p>
+
+<p>As a test I want to try the example code on this Arduino Wifi shield webpage to
+scan for available networks (<a href="http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5">http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5</a>).</p>
+
+<p>I mentioned in a previous blog post (<a href="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/">http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/</a>)
+I had an issue with the Arduino IDE and now use inotool (<a href="http://inotool.org/">http://inotool.org/</a>).
+It enables to code for Arduino in your text editor/IDE of choice and compile and
+upload code from the command line (but it still need the Arduino IDE to be installed).</p>
+
+<p>Here&rsquo;s how I start a project with inotool:</p>
+
+<pre><code>~$ mkdir new_project && cd new_project</code>
+<code>~$ ino init</code></pre>
+
+
+<p>Here&rsquo;s the structure of my project after that:</p>
+
+<p><picture ino project structure></p>
+
+<p>I can then edit the the code in src/sketch.ino. In that case I just copied/pasted
+the code from Arduino&rsquo;s example:</p>
+
+<p><picture example code></p>
+
+<p>I built as usual using the command <pre><code>~$ ino build</code></pre> and got
+the following error:</p>
+
+<p><picture error with Ethernet></p>
+
+<p>=> It seems there&rsquo;s a conflict between the Ethernet and WiFi Libraries.</p>
+
+<p>&hellip; Then I kind of lost it and tried all those things:</p>
+
+<ul>
+<li>bypassing Arduino IDE and inotool and using a Makefile for compiling Arduino (<a href="http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile</a>)
+   => I got lost down makefile rabbit hole</li>
+<li>updating (or trying to update) the wifi shield firmware using Arduino&rsquo;s instructions (<a href="http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading">http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading</a>) and blog posts.</li>
+<li>downgrading from Arduino IDE version 1.0.5 to 1.0.2 (older versions are found here: <a href="http://arduino.cc/en/Main/OldSoftwareReleases">http://arduino.cc/en/Main/OldSoftwareReleases</a>).</li>
+</ul>
+
+
+<p>I tried those all at once and at best I could compile the sketch but my MAC (and IP) addresses was 0.0.0.0!</p>
+
+<p>Here&rsquo;s how it finally worked for me:</p>
+
+<ul>
+<li>I downgraded to Arduino IDE version 1.0.1.</li>
+<li>Copied &ldquo;arduino-1.0.1&rdquo; in usr/share/ and renamed it to &ldquo;arduino&rdquo; so that the path was again /usr/share/arduino/.</li>
+<li>I added wifishield/ from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield</a> to /usr/share/arduino/hardware/arduino/firmwares/</li>
+<li>I added WiFi library from <a href="https://github.com/arduino/Arduino/tree/master/libraries/WiFi">https://github.com/arduino/Arduino/tree/master/libraries/WiFi</a> to /usr/share/arduino</li>
+<li>I upgraded the firmware (not sure if necessary) => Note: you need a USB 2.0 Mini B cable to link the wifi shield directly to your computer!
+
+<ul>
+<li> here are the instructions to install dfu-programmer: <a href="https://github.com/dfu-programmer/dfu-programmer">https://github.com/dfu-programmer/dfu-programmer</a></li>
+<li> and you can get the latest wifi shield scripts from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts</a></li>
+<li> replace your scripts in /usr/share/arduino/hardware/arduino/firmwares/wifishield/scripts/ with the ones from Arduino Github repo.</li>
+<li> close the J3 jumper on the shield<br/>
+   Then run:
+   <pre><code>~$ sudo ./ArduinoWifiShield_upgrade.sh -a /usr/share/arduino -f all</code></pre></li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Getting Started With Arduino on Linux (Ubuntu)]]></title>
@@ -27,7 +105,7 @@ Afterwards you should be able to plug your Arduino and use Arduino IDE to code/u
 
 <p><img src="http://blog.opensensors.io/images/arduino_bug1.png" /></p>
 
-<p>I found a solution on <a href="http://askubuntu.com/questions/26474/unable-to-install-arduino">AskUbuntu</a> forum. I downgraded from java 7 to java 6 using the command: <pre><code>~$ sudo update-alternatives &mdash;config java</code></pre>
+<p>I found a solution on <a href="http://askubuntu.com/questions/26474/unable-to-install-arduino">AskUbuntu</a> forum. I downgraded from java 7 to java 6 <strong>(***)</strong> using the command: <pre><code>~$ sudo update-alternatives &mdash;config java</code></pre>
 I then managed to launch Arduino from the CLI (I was asked to authenticate) and tried to upload a code example to my Arduino (Files > Examples > 01.Basics > Blink).
 I received this error message:</p>
 
@@ -56,6 +134,16 @@ Here&rsquo;s a proof:</p>
 <li>Also try LadyAda&rsquo;s <a href="http://www.ladyada.net/learn/arduino/help.html">help page</a>.</li>
 </ul>
 
+
+<p><strong>(***) Well, well. You might realise later that you actually need java 7 for another program to work! But fear not, see the alternatives below.</strong></p>
+
+<h2>Alternatives to Arduino IDE</h2>
+
+<p><a href="http://arduino.cc/en/main/software">Arduino IDE</a> is based on java but luckily there other tools to write code for Arduino.</p>
+
+<p>I tried <a href="http://inotool.org/">Ino</a> which is written in Python and is a command line tool and allows to write code in any text editor.
+It is straightforward to install with instructions given. You will need to install picocom program if you don&rsquo;t have it <pre><code>~$ sudo apt-get install picocom</code></pre>
+There are other <a href="https://learn.sparkfun.com/tutorials/alternative-arduino-interfaces">alternatives</a> to the Arduino IDE like <a href="https://codebender.cc/">Codebender</a> which is an online development platform.</p>
 ]]></content>
   </entry>
   
@@ -428,7 +516,7 @@ The full list data sets are below:</p>
 
 <p><strong>Publishing and Access of data under an <a href="http://www.theodi.org/guide/what-open-data">Open Data Licence</a> will be free to anyone irrespective of the volume of data.</strong></p>
 
-<p>Individuals with a small number of personal devices will also be free to publish their data under a private licence and share with whom they choose.  Contact on &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#104;&#x65;&#x6c;&#108;&#111;&#64;&#x6f;&#112;&#101;&#110;&#115;&#101;&#110;&#115;&#111;&#x72;&#115;&#x2e;&#x69;&#x6f;">&#104;&#101;&#108;&#108;&#x6f;&#x40;&#x6f;&#112;&#x65;&#x6e;&#115;&#x65;&#x6e;&#x73;&#x6f;&#x72;&#x73;&#46;&#x69;&#x6f;</a>&rsquo; to join our private beta.</p>
+<p>Individuals with a small number of personal devices will also be free to publish their data under a private licence and share with whom they choose.  Contact on &lsquo;<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x68;&#101;&#x6c;&#x6c;&#111;&#x40;&#111;&#x70;&#x65;&#x6e;&#x73;&#x65;&#x6e;&#115;&#x6f;&#114;&#115;&#x2e;&#105;&#111;">&#x68;&#101;&#108;&#108;&#111;&#64;&#111;&#x70;&#101;&#x6e;&#115;&#101;&#x6e;&#x73;&#x6f;&#x72;&#x73;&#x2e;&#105;&#111;</a>&rsquo; to join our private beta.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@ title: "Getting started with Arduino on Linux (Ubuntu)"
 date: 2014-09-13 07:56
 comments: true
 author: "Eleonore Mayola"
-categories: Arduino, Beginner
+categories: [Arduino, Beginner]
 ---
 
 Ordered and received your Arduino Uno (I actually received it a while ago!) now what? The first step is to rush to the ['Getting Started'](http://arduino.cc/en/Guide/HomePage) page on Arduino's website. 

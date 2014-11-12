@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Getting Started With Arduino on Linux (Ubuntu) - OpenSensors.IO</title>
+  <title>Installing an Arduino Wifi Shield - OpenSensors.IO</title>
   <meta name="author" content="OpenSensors.IO">
 
   
-  <meta name="description" content="Ordered and received your Arduino Uno (I actually received it a while ago!) now what? The first step is to rush to the &lsquo;Getting Started&rsquo; &hellip;">
+  <meta name="description" content="After a few Arduino projects (mainly blinking LEDs and connecting sensors) I tried
+to connect my Arduino to the internet using a Wifi shield. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux">
+  <link rel="canonical" href="http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield">
   <link href="/os.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="OpenSensors.IO" type="application/atom+xml">
@@ -91,7 +92,7 @@
   
   <header>
     
-      <h1 class="entry-title">Getting Started With Arduino on Linux (Ubuntu)</h1>
+      <h1 class="entry-title">Installing an Arduino Wifi Shield</h1>
     
     
       <p class="meta">
@@ -107,61 +108,83 @@
   
 
 
-<time datetime="2014-09-13T07:56:00+01:00" pubdate data-updated="true">Sep 13<span>th</span>, 2014</time>
+<time datetime="2014-11-12T17:11:00+00:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Ordered and received your Arduino Uno (I actually received it a while ago!) now what? The first step is to rush to the <a href="http://arduino.cc/en/Guide/HomePage">&lsquo;Getting Started&rsquo;</a> page on Arduino&rsquo;s website.</p>
+<div class="entry-content"><p>After a few Arduino projects (mainly blinking LEDs and connecting sensors) I tried
+to connect my Arduino to the internet using a Wifi shield.</p>
 
-<p>To install Arduino on Linux (I&rsquo;m running Ubuntu 14.04) visit the <a href="http://playground.arduino.cc/Learning/Linux">wiki page</a> with instructions for most Linux distributions. I used the instructions for Ubuntu 12.04 or newer and ran <pre><code>~$ sudo apt-get update &amp;&amp; sudo apt-get install arduino arduino-core</code></pre>
-Afterwards you should be able to plug your Arduino and use Arduino IDE to code/upload code to it. It didn&rsquo;t work directly for me. I couldn&rsquo;t launch Arduino IDE by clicking the logo so I tried the CLI <pre><code>~$ arduino</code></pre> Here&rsquo;s the error it returned:</p>
+<p>I started by looking at Arduino Wifi shield instructions: <a href="http://arduino.cc/en/Guide/ArduinoWiFiShield.">http://arduino.cc/en/Guide/ArduinoWiFiShield.</a>
+Then I physically connected my Arduino and Wifi shield:</p>
 
-<blockquote><p>Exception in thread &ldquo;main&rdquo; java.lang.ExceptionInInitializerError.</p></blockquote>
+<p><picture arduino+wifi shield></p>
 
-<p><img src="/images/arduino_bug1.png" /></p>
+<p>As a test I want to try the example code on this Arduino Wifi shield webpage to
+scan for available networks (<a href="http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5">http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5</a>).</p>
 
-<p>I found a solution on <a href="http://askubuntu.com/questions/26474/unable-to-install-arduino">AskUbuntu</a> forum. I downgraded from java 7 to java 6 <strong>(***)</strong> using the command: <pre><code>~$ sudo update-alternatives &mdash;config java</code></pre>
-I then managed to launch Arduino from the CLI (I was asked to authenticate) and tried to upload a code example to my Arduino (Files > Examples > 01.Basics > Blink).
-I received this error message:</p>
+<p>I mentioned in a previous blog post (<a href="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/">http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/</a>)
+I had an issue with the Arduino IDE and now use inotool (<a href="http://inotool.org/">http://inotool.org/</a>).
+It enables to code for Arduino in your text editor/IDE of choice and compile and
+upload code from the command line (but it still need the Arduino IDE to be installed).</p>
 
-<blockquote><p>processing.app.SerialNotFoundException: Serial port &lsquo;COM1&rsquo; not found. Did you select the right one from the Tools > Serial Port menu?</p></blockquote>
+<p>Here&rsquo;s how I start a project with inotool:</p>
 
-<p><img src="/images/arduinobug2.png" /></p>
+<pre><code>~$ mkdir new_project && cd new_project</code>
+<code>~$ ino init</code></pre>
 
-<p>In Tools I saw that Serial Port was greyed out so I couldn&rsquo;t even select the port.
-from <a href="http://stackoverflow.com/questions/19322432/arduino-tools-serial-port-greyed-out">Stackoverflow</a> I found that to give read and write privilege on the usb port I could run Arduino with the administrator privileges.
-And so I used <pre><code>~$ sudo arduino</code></pre> &ndash;> It worked! It blinked!
-Here&rsquo;s a proof:</p>
 
-<p><img src="/images/arduino_blinks.jpg" /></p>
+<p>Here&rsquo;s the structure of my project after that:</p>
 
-<h2>Troubleshooting</h2>
+<p><picture ino project structure></p>
+
+<p>I can then edit the the code in src/sketch.ino. In that case I just copied/pasted
+the code from Arduino&rsquo;s example:</p>
+
+<p><picture example code></p>
+
+<p>I built as usual using the command <pre><code>~$ ino build</code></pre> and got
+the following error:</p>
+
+<p><picture error with Ethernet></p>
+
+<p>=> It seems there&rsquo;s a conflict between the Ethernet and WiFi Libraries.</p>
+
+<p>&hellip; Then I kind of lost it and tried all those things:</p>
 
 <ul>
-<li>Check your Arduino IDE settings: Tools > Board (the right borad is select), Tool > Serial Port (the right port for your device is ticked).</li>
-<li>Check all dependencies were downloaded with arduino and arduino-core .
+<li>bypassing Arduino IDE and inotool and using a Makefile for compiling Arduino (<a href="http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile</a>)
+   => I got lost down makefile rabbit hole</li>
+<li>updating (or trying to update) the wifi shield firmware using Arduino&rsquo;s instructions (<a href="http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading">http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading</a>) and blog posts.</li>
+<li>downgrading from Arduino IDE version 1.0.5 to 1.0.2 (older versions are found here: <a href="http://arduino.cc/en/Main/OldSoftwareReleases">http://arduino.cc/en/Main/OldSoftwareReleases</a>).</li>
+</ul>
+
+
+<p>I tried those all at once and at best I could compile the sketch but my MAC (and IP) addresses was 0.0.0.0!</p>
+
+<p>Here&rsquo;s how it finally worked for me:</p>
 
 <ul>
-<li>Arduino&rsquo;s dependencies: arduino-core, default-jre, libjna-java, librtx-java</li>
-<li>Arduino-core&rsquo;s dependencies: avr-libc, avrdude, gcc, gcc-avr</li>
+<li>I downgraded to Arduino IDE version 1.0.1.</li>
+<li>Copied &ldquo;arduino-1.0.1&rdquo; in usr/share/ and renamed it to &ldquo;arduino&rdquo; so that the path was again /usr/share/arduino/.</li>
+<li>I added wifishield/ from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield</a> to /usr/share/arduino/hardware/arduino/firmwares/</li>
+<li>I added WiFi library from <a href="https://github.com/arduino/Arduino/tree/master/libraries/WiFi">https://github.com/arduino/Arduino/tree/master/libraries/WiFi</a> to /usr/share/arduino</li>
+<li>I upgraded the firmware (not sure if necessary) => Note: you need a USB 2.0 Mini B cable to link the wifi shield directly to your computer!
+
+<ul>
+<li> here are the instructions to install dfu-programmer: <a href="https://github.com/dfu-programmer/dfu-programmer">https://github.com/dfu-programmer/dfu-programmer</a></li>
+<li> and you can get the latest wifi shield scripts from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts</a></li>
+<li> replace your scripts in /usr/share/arduino/hardware/arduino/firmwares/wifishield/scripts/ with the ones from Arduino Github repo.</li>
+<li> close the J3 jumper on the shield<br/>
+   Then run:
+   <pre><code>~$ sudo ./ArduinoWifiShield_upgrade.sh -a /usr/share/arduino -f all</code></pre></li>
 </ul>
 </li>
-<li>Also try LadyAda&rsquo;s <a href="http://www.ladyada.net/learn/arduino/help.html">help page</a>.</li>
 </ul>
 
-
-<p><strong>(***) Well, well. You might realise later that you actually need java 7 for another program to work! But fear not, see the alternatives below.</strong></p>
-
-<h2>Alternatives to Arduino IDE</h2>
-
-<p><a href="http://arduino.cc/en/main/software">Arduino IDE</a> is based on java but luckily there other tools to write code for Arduino.</p>
-
-<p>I tried <a href="http://inotool.org/">Ino</a> which is written in Python and is a command line tool and allows to write code in any text editor.
-It is straightforward to install with instructions given. You will need to install picocom program if you don&rsquo;t have it <pre><code>~$ sudo apt-get install picocom</code></pre>
-There are other <a href="https://learn.sparkfun.com/tutorials/alternative-arduino-interfaces">alternatives</a> to the Arduino IDE like <a href="https://codebender.cc/">Codebender</a> which is an online development platform.</p>
 </div>
 
 
@@ -169,7 +192,7 @@ There are other <a href="https://learn.sparkfun.com/tutorials/alternative-arduin
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/" data-via="opensensorsio" data-counturl="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield/" data-via="opensensorsio" data-counturl="http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield/" >Tweet</a>
   
   
   
@@ -195,10 +218,8 @@ There are other <a href="https://learn.sparkfun.com/tutorials/alternative-arduin
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/12/iot-in-the-city/" title="Previous Post: IOT in the city">&laquo; IOT in the city</a>
+        <a class="basic-alignment left" href="/blog/2014/09/13/getting-started-with-arduino-on-linux/" title="Previous Post: Getting started with Arduino on Linux (Ubuntu)">&laquo; Getting started with Arduino on Linux (Ubuntu)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/12/installing-an-arduino-wifi-shield/" title="Next Post: Installing an Arduino Wifi shield">Installing an Arduino Wifi shield &raquo;</a>
       
     </p>
   </footer>
