@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Arduino | OpenSensors.IO]]></title>
   <link href="http://blog.opensensors.io/blog/categories/arduino/atom.xml" rel="self"/>
   <link href="http://blog.opensensors.io/"/>
-  <updated>2014-11-12T17:55:36+00:00</updated>
+  <updated>2014-11-13T13:28:01+00:00</updated>
   <id>http://blog.opensensors.io/</id>
   <author>
     <name><![CDATA[OpenSensors.IO]]></name>
@@ -19,20 +19,21 @@
     <updated>2014-11-12T17:11:00+00:00</updated>
     <id>http://blog.opensensors.io/blog/2014/11/12/installing-an-arduino-wifi-shield</id>
     <content type="html"><![CDATA[<p>After a few Arduino projects (mainly blinking LEDs and connecting sensors) I tried
-to connect my Arduino to the internet using a Wifi shield.</p>
+to connect my Arduino to the internet using a Wifi shield!</p>
 
-<p>I started by looking at Arduino Wifi shield instructions: <a href="http://arduino.cc/en/Guide/ArduinoWiFiShield.">http://arduino.cc/en/Guide/ArduinoWiFiShield.</a>
-Then I physically connected my Arduino and Wifi shield:</p>
+<p>I started by looking at Arduino Wifi shield <a href="http://arduino.cc/en/Guide/ArduinoWiFiShield">instructions</a>.</p>
 
-<p><picture arduino+wifi shield></p>
+<p>Then I physically connected my Arduino and Wifi shield:</p>
 
-<p>As a test I want to try the example code on this Arduino Wifi shield webpage to
-scan for available networks (<a href="http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5">http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5</a>).</p>
+<p><img src="/images/arduino-wifishield.jpg" /></p>
 
-<p>I mentioned in a previous blog post (<a href="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/">http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/</a>)
-I had an issue with the Arduino IDE and now use inotool (<a href="http://inotool.org/">http://inotool.org/</a>).
+<p>As a test I wanted to scan for available networks using the example code on <a href="http://arduino.cc/en/Guide/ArduinoWiFiShield#toc5">this</a>
+Arduino Wifi shield webpage.</p>
+
+<p>I mentioned in a previous blog <a href="http://blog.opensensors.io/blog/2014/09/13/getting-started-with-arduino-on-linux/">post</a>
+I had an issue with the Arduino IDE and now use <a href="http://inotool.org/">inotool</a>.
 It enables to code for Arduino in your text editor/IDE of choice and compile and
-upload code from the command line (but it still need the Arduino IDE to be installed).</p>
+upload code from the command line (but it still needs the Arduino IDE to be installed).</p>
 
 <p>Here&rsquo;s how I start a project with inotool:</p>
 
@@ -40,54 +41,78 @@ upload code from the command line (but it still need the Arduino IDE to be insta
 <code>~$ ino init</code></pre>
 
 
-<p>Here&rsquo;s the structure of my project after that:</p>
+<p>Here&rsquo;s the structure of my project afterwards:</p>
 
-<p><picture ino project structure></p>
+<p><img src="/images/directory_structure.png" /></p>
 
-<p>I can then edit the the code in src/sketch.ino. In that case I just copied/pasted
+<p>I can then edit the code in src/sketch.ino. In that case I just copied/pasted
 the code from Arduino&rsquo;s example:</p>
 
-<p><picture example code></p>
+<p><img src="/images/Test_wifishield.png" /></p>
 
-<p>I built as usual using the command <pre><code>~$ ino build</code></pre> and got
+<p>I built as usual using this command: <pre><code>~$ ino build</code></pre> &hellip; and got
 the following error:</p>
 
-<p><picture error with Ethernet></p>
+<p><img src="/images/build_error_wifi.png" /></p>
 
-<p>=> It seems there&rsquo;s a conflict between the Ethernet and WiFi Libraries.</p>
+<p>=> It seemed there was a conflict between the Ethernet and WiFi Libraries.</p>
 
-<p>&hellip; Then I kind of lost it and tried all those things:</p>
+<p>&hellip; Then I kind of lost it (O_O) and tried all those things:</p>
 
 <ul>
-<li>bypassing Arduino IDE and inotool and using a Makefile for compiling Arduino (<a href="http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile</a>)
-   => I got lost down makefile rabbit hole</li>
-<li>updating (or trying to update) the wifi shield firmware using Arduino&rsquo;s instructions (<a href="http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading">http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading</a>) and blog posts.</li>
-<li>downgrading from Arduino IDE version 1.0.5 to 1.0.2 (older versions are found here: <a href="http://arduino.cc/en/Main/OldSoftwareReleases">http://arduino.cc/en/Main/OldSoftwareReleases</a>).</li>
+<li>bypassing both Arduino IDE and inotool by using a Makefile for compiling Arduino (<a href="http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile">http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile</a>)
+   => and I got lost down makefile rabbit hole&hellip;</li>
+<li>updating (or trying to update) the wifi shield firmware using Arduino&rsquo;s <a href="http://arduino.cc/en/Hacking/WiFiShieldFirmwareUpgrading">instructions</a> and blog posts.
+  => when I finally managed it, it didn&rsquo;t have any effect&hellip;</li>
+<li>downgrading from Arduino IDE version 1.0.5 to 1.0.2 (older versions are found <a href="http://arduino.cc/en/Main/OldSoftwareReleases">here</a>).
+  => no improvement really&hellip;</li>
 </ul>
 
 
-<p>I tried those all at once and at best I could compile the sketch but my MAC (and IP) addresses was 0.0.0.0!</p>
+<p>I went back and forth between those solutions and at best I could compile the sketch but my MAC address was 0.0.0.0 (same for my IP address)!</p>
 
-<p>Here&rsquo;s how it finally worked for me:</p>
+<p><strong>Here&rsquo;s how it finally worked for me:</strong></p>
 
 <ul>
 <li>I downgraded to Arduino IDE version 1.0.1.</li>
-<li>Copied &ldquo;arduino-1.0.1&rdquo; in usr/share/ and renamed it to &ldquo;arduino&rdquo; so that the path was again /usr/share/arduino/.</li>
-<li>I added wifishield/ from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield</a> to /usr/share/arduino/hardware/arduino/firmwares/</li>
-<li>I added WiFi library from <a href="https://github.com/arduino/Arduino/tree/master/libraries/WiFi">https://github.com/arduino/Arduino/tree/master/libraries/WiFi</a> to /usr/share/arduino</li>
-<li>I upgraded the firmware (not sure if necessary) => Note: you need a USB 2.0 Mini B cable to link the wifi shield directly to your computer!
+<li>Copied &ldquo;arduino-1.0.1&rdquo; in usr/share/ and renamed it to &ldquo;arduino&rdquo; so that the path to the IDE was /usr/share/arduino/.</li>
+<li>I added wifishield/ folder from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield</a> to /usr/share/arduino/hardware/arduino/firmwares/.</li>
+<li>I added the WiFi library from <a href="https://github.com/arduino/Arduino/tree/master/libraries/WiFi">https://github.com/arduino/Arduino/tree/master/libraries/WiFi</a> to /usr/share/arduino.</li>
+<li>I upgraded the firmware (not sure if necessary) => <em>Note</em> : you need a USB 2.0 Mini B cable to link the wifi shield directly to your computer!
 
 <ul>
 <li> here are the instructions to install dfu-programmer: <a href="https://github.com/dfu-programmer/dfu-programmer">https://github.com/dfu-programmer/dfu-programmer</a></li>
 <li> and you can get the latest wifi shield scripts from <a href="https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts">https://github.com/arduino/Arduino/tree/master/hardware/arduino/firmwares/wifishield/scripts</a></li>
 <li> replace your scripts in /usr/share/arduino/hardware/arduino/firmwares/wifishield/scripts/ with the ones from Arduino Github repo.</li>
-<li> close the J3 jumper on the shield<br/>
-   Then run:
+<li> close the J3 jumper on the shield (***),
+   then run:
    <pre><code>~$ sudo ./ArduinoWifiShield_upgrade.sh -a /usr/share/arduino -f all</code></pre></li>
 </ul>
 </li>
 </ul>
 
+
+<p>Yay! (^o^) You can now try new projects like creating a <a href="http://arduino.cc/en/Tutorial/WiFiWebServer">webserver</a> or sending sensor data via internet!</p>
+
+<br>
+
+
+<p>(***) In case you wonder what a <strong>J3 jumper</strong> looks like,
+those pictures could be useful to you:</p>
+
+<ul>
+<li>Here the J3 jumper is open (for when the shield communicate with the Arduino):</li>
+</ul>
+
+
+<p><img src="/images/j3_opened.jpg" /></p>
+
+<ul>
+<li>Here the J3 jumper is closed (or in programming mode, to update the firmware):</li>
+</ul>
+
+
+<p><img src="/images/j3_closed.jpg" /></p>
 ]]></content>
   </entry>
   
